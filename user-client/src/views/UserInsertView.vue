@@ -7,7 +7,7 @@
         <tr>
           <th class="text-right table-primary">No.</th>
           <td class="text-center">
-            <input class="form-control" type="number" v-model="userInfo.user_no" readOnly>
+            <input class="form-control" type="number" v-model="userInfo.user_no" readonly>
           </td>
         </tr>
         <tr>
@@ -70,11 +70,21 @@ export default {
         user_name: "",
         user_gender: null,
         user_age: null,
-        join_date: null
+        join_date: null // 오늘 날짜가 바로 보이게 수정.. created()
       }
     }
   },
+  created() { // 기본 세팅도 여기서 동작
+    this.userInfo.join_date = this.getToday();
+  },
   methods: {
+    getToday(){
+      let date = new Date();
+      let year = date.getFullYear();
+      let month = ('0' + (date.getMonth() + 1)).slice(-2);
+      let day = ('0' + date.getDate()).slice(-2);
+      return `${year}-${month}-${day}`;
+    },
     insertInfo() {
       // 1. 유효성 체크 (별도의 함수 만들어서 적용)
       if (!this.validation()) return; // if 문이 안돌았다면 진행.

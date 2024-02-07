@@ -94,13 +94,23 @@ export default {
     },
     goToUpdate(userId){
       // 수정폼 컴포넌트 호출
-      console.log(userId);
+      //this.$router.push({path : '/userUpdate', query : {"userId" : userId}}); // request 가 query.
+      this.$router.push({path : '/userForm', query : {"id" : userId}});
     },
     deleteInfo(userId){
-      // 서버에 해당 데이터를 삭제
-      console.log(userId);
+      // 서버에 해당 데이터를 삭제.. 단건조회 참고
+      axios
+      .delete(`/api/users/${userId}`)
+      .then(result => {
+        if(result.data.affectedRows != 0 && result.data.changedRows == 0){
+          alert(`정상 삭제됨`);
+          this.$router.push({path : '/'}); // 이건 꼭 보여야 하는 부분.
+      }else {
+        alert(`삭제 안됨.\n메세지확인\n${result.data.message}`);
+      }
     }
-  }
+  )}
+}
 }
 
 </script>
